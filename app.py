@@ -30,7 +30,7 @@ import psycopg2
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', '9b47979a899d7a4c8f30cfc05da31a8058081c6e40b7b8a3')
-connection = psycopg2.connect("postgresql://runtimeerror:76mHyzfr9k_rqrgRFhHQ8A@run-time-error-4066.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/ChitrKatha?sslmode=verify-full")
+connection = psycopg2.connect("postgresql://runtimeerror:76mHyzfr9k_rqrgRFhHQ8A@run-time-error-4066.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/ChitrKatha?sslmode=require&sslrootcert=/root.crt")
 cursor=connection.cursor()
 # def create_db_connection():
 #     try:
