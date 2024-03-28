@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChirtaKatha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        header {
+            background-color: gray;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.5s;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        header img {
+            border-radius: 10%;
+            margin-right: 10px;
+            transition: transform 0.5s; /* Added transition for smoother effect */
+        }
+
+        header p {
+            margin: 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: gray;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            margin-left: 20px;
+            box-sizing: border-box;
+            font-size: large;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.5s;
+            margin-right: 20px;
+        }
+
+        .mode-switch {
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .Image {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        header.dark-mode {
+            background-color: #555;
+        }
+
+        header.dark-mode nav {
+            background-color: #555;
+        }
+
+        nav a.dark-mode {
+            color: #fff;
+        }
+
+        button.dark-mode {
+            background-color: #fff;
+            color: #333;
+        }
+
+        @media screen and (max-width: 700px) {
+            header img {
+                transform: scale(0.8); /* Adjust the scale factor as needed */
+            }
+            .Image {
+                margin-top: 10px;
+            }
+            nav {
+                font-size: xx-small;
+                padding: 5px;
+            }
+            header h1 {
+                font-size: small;
+            }
+        }
+
+        /* Animation for Welcome text */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .welcome-text {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Animation for scaling text */
+        @keyframes scaleText {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .scaling-text {
+            animation: scaleText 2s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <p>
+            <img src="logo.png" alt="Logo" width="50" height="50">
+            <h1>ChitrKatha</h1>
+        </p>
+        <nav>
+            <a href="about.html" target="_blank"><b>About Us</b></a>
+            <a href="login.html" target="_blank"><b>Login</b></a>
+            <a href="create_account.html" target="_blank"><b>Sign Up</b></a>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        </nav>
+    </header>
+
+    <main>
+        <center>
+            <h2 class="welcome-text scaling-text"><b>Welcome To ChitrKatha!!</b></h2>
+            <div class="Image">
+                <img src="mainpage.png" alt="Main Logo" />
+            </div>
+        </center>
+    </main>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('nav a');
+            const loginContainer = document.querySelector('.login-container');
+
+            body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            navLinks.forEach(link => link.classList.toggle('dark-mode'));
+            loginContainer.classList.toggle('dark-mode');
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main-ChitraKatha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+</head>
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f4f4;
+    color: #333;
+    transition: background-color 0.5s, color 0.5s;
+    overflow-y: auto;
+}
+
+header {
+    background-color: gray;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background-color 0.5s;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+header img {
+    border-radius: 10%;
+    margin-right: 20px;
+    transition: transform 0.5s;
+}
+
+header p {
+    margin: 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+header h1 {
+    margin: 0;
+    color: #fff;
+     font-size:xx-large;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    background-color: gray;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-left: 20px;
+    box-sizing: border-box;
+    font-size: large;
+    
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.5s;
+    margin-right: 20px;
+}
+
+.mode-switch {
+    cursor: pointer;
+    margin-left: auto;
+}
+
+
+.sidebar {
+    background-color: #333;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    top: 3rem; /* Adjusted top position based on header height */
+    bottom: 0;
+    height:120px;
+    transition: width 0.5s;
+}
+
+.video{
+    background-color: #333;
+    padding: 30px;
+    height:120px;
+    transition: width 0.5s;
+    width: 200px;
+    margin-left:45%;
+    bottom: 30px;
+    position: absolute;
+    color:#fff;
+}
+
+.sidebar i {
+    font-size: 24px;
+    color: #fff;
+    margin: auto;
+}
+
+.sidebar p {
+    font-size: 15px;
+    color: #fff;
+    margin: auto;
+}
+
+.uploaded-image {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.uploaded-music {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* Media Query: Adjust sidebar width for screens wider than 600px */
+@media (max-width: 700px) {
+    header img {
+        transform: scale(0.8); /* Adjust the scale factor as needed */
+    }
+
+    nav {
+        font-size: xx-small;
+        padding: 5px;
+    }
+    header h1 {
+        font-size: small;
+    }
+
+    .mode-switch {
+        margin-right: 20;
+    }
+
+    .sidebar {
+        width: 40px; /* Adjusted width for smaller screens */
+    }
+
+    .content {
+        margin-left: 0; /* Remove margin for smaller screens */
+    }
+}
+#videoPreview {
+max-width: 100%;
+margin-top: 20px;
+}
+
+.display {
+width:1500px;
+height:670px;
+margin-left: 220px;
+top: 4rem;
+background-color: #fff;
+}
+
+.play {
+width:1100px;
+margin-left:200px;
+margin-top: 30px;
+
+}
+
+.edit {
+margin-left: 3rem;
+margin-top: 50px;
+height:150px;
+background-color: #fff;
+}
+
+.grid-item img {
+max-width: 100%; /* Ensure images don't exceed their container's width */
+height: auto; /* Maintain aspect ratio */
+display: block; /* Remove default inline behavior */
+}
+/* Add this style for the video controls 
+.video-controls {
+display: flex;
+justify-content: center;
+margin-top: 10px;
+}
+
+.video-controls button {
+margin: 0 5px;
+cursor: pointer;
+}*/
+
+/* styling for dark theme slider */
+
+.switch {
+position: relative;
+display: inline-block;
+width: 60px;
+height: 34px;
+}
+
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+-webkit-transition: .4s;
+transition: .4s;
+border-radius: 34px;
+}
+
+.slider:before {
+position: absolute;
+content: "";
+height: 26px;
+width: 26px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+-webkit-transition: .4s;
+transition: .4s;
+border-radius: 50%;
+}
+
+input:checked+.slider {
+background-color: #2196F3;
+}
+
+input:focus+.slider {
+box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+-webkit-transform: translateX(26px);
+-ms-transform: translateX(26px);
+transform: translateX(26px);
+}
+
+
+.dark-mode {
+background-color: #383838;
+color: black;
+}
+header.dark-mode {
+    background-color: #555;
+}
+
+header.dark-mode nav {
+    background-color: #555;
+}
+
+nav a.dark-mode {
+    background-color: #555;
+    color: #fff;
+}
+
+button.dark-mode {
+    background-color: #fff;
+    color: #333;
+}
+
+
+
+#myInput {
+box-sizing: border-box;
+background-image: url('searchicon.png');
+background-position: 14px 12px;
+background-repeat: no-repeat;
+font-size: 16px;
+padding: 14px 20px 12px 45px;
+border: none;
+border-bottom: 1px solid #ddd;
+}
+
+#myInput:focus {outline: 3px solid #ddd;}
+
+.dropdown {
+margin:auto;
+display: inline-block;
+color: #fff;
+}
+
+.dropdown-content {
+display: none;
+background-color: #f6f6f6;
+width: 199px; /* Set your desired width */
+height: 500px; /* Set your desired height */
+overflow-y: auto; /* Add scrollbar only vertically */
+margin-bottom: 0px;
+border: 1px solid #ddd;
+z-index: 1;
+}
+
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+
+#audioPlayer{
+
+
+
+    margin-left:270px;
+    bottom:210px ;
+    position:absolute;
+    width:500px;
+
+}
+
+#filenameContainer {
+    width: 70%;
+    min-height: 610px;
+    max-height: 610px; /* Set a minimum height to avoid collapsing */
+    bottom: 265px;
+    margin-bottom: 0px;
+    margin-left: 270px;
+    position: absolute;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    border: 2px dashed #aaa;
+    padding: 100px;
+    cursor: pointer;
+    overflow-y: auto;
+   
+    /* overflow: hidden; Hide overflowing content */
+}
+
+#filenameContainer.highlight {
+    background-color: #f4f4f4;
+}
+
+.fileName {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    padding: 10px;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+    #filenameContainer {
+        margin-left: 0;
+    }
+}
+
+/* Media Query: Adjust filenameContainer for screens wider than 700px */
+@media (max-width: 700px) {
+    
+}
+
+    .user-info {
+    
+        display: flex;
+        align-items: center;
+    }
+
+    .user-info p {
+        margin: 0;
+        margin-right: 70px;
+        color: #fff;
+        font-size: 20px;
+        
+    }
+
+   
+
+/* Media Query: Adjust music bar and video preview for screens wider than 1200px */
+@media (max-width: 1200px) {
+    #audioPlayer {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    
+}
+
+/* Media Query: Adjust music bar and video preview for screens wider than 700px */
+@media (max-width: 700px) {
+    #audioPlayer {
+        bottom: 150px; /* Adjust bottom for smaller screens */
+    }
+
+    
+}
+.auth-link {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.5s;
+        margin-right: 20px;
+    }
+
+     /* Style for custom select */
+     .custom-select {
+            position: relative;
+            font-family: Arial;
+            width: 200px; /* Set your desired width */
+            
+        }
+
+        .custom-select select {
+            display: none; /* Hide original SELECT element */
+        }
+
+        .select-selected {
+            background-color: black;
+            color: #ffffff; /* Text color */
+            padding: 8px 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .select-items div, .select-selected {
+            padding: 8px 16px;
+            border: 1px solid transparent;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .select-items {
+            position: absolute;
+            background-color: black;
+            color:white;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .select-hide {
+            display: none;
+        }
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for arrow inside select */
+        .select-selected:after {
+            position: absolute;
+            content: "";
+            top: 14px;
+            right: 10px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #fff transparent;
+            top: 7px;
+        }
+
+        input[type="submit"] {
+        position: relative;
+        font-family: Arial;
+        width: 200px;
+        background-color: black;
+        color: #ffffff; /* Text color */
+        padding: 8px 16px;
+        cursor: pointer;
+        border: none; /* Remove default border */
+        /* Optional: Add rounded corners */
+        font-size: medium;
+        text-align: left;
+    }
+
+    input[type="file"],
+    button[type="submit"] {
+        position: relative;
+        font-family: Arial;
+        width: 200px;
+        background-color: black;
+        color: #ffffff; /* Text color */
+        padding: 8px 16px;
+        cursor: pointer;
+        border: none; /* Remove default border */
+         /* Optional: Add rounded corners */
+         font-size: medium;
+         margin-top: 20px;
+         text-align: left;
+    
+    }
+    
+   
+
+</style>
+
+
+<body>
+    <header>
+        <p>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="50" height="50">
+            <h1><b>ChitrKatha</b></h1>
+        </p>
+        <nav>
+            <a href="{{ url_for('about') }}" target="_blank"><b>About Us</b></a>
+            <a href="{{ url_for('login') }}" target="_blank"><b>Login</b></a>
+            <a href="{{ url_for('create_account') }}" target="_blank"><b>Sign Up</b></a>
+            </nav>
+            <div class="user-info">
+               <p> <b>Hi, {{ user_name }}</b></p>
+                <p > <a href="{{ url_for('logout') }}" style="color: #fff;text-decoration:none"><b>Logout</b></a></p>
+            </div>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        
+           
+    </header>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="images" id="fileInput" multiple accept="image/*">
+        <br>
+    
+        <button type="submit" ><p>Upload Images</p></button>
+    </form>
+
+    <form action="/create_video" method="post" onsubmit="return validateForm();">
+        
+        <div id="filenameContainer">
+            
+            <div>
+                
+                {% for image in images %}
+                <label for="{{ image.filename }}">
+                    <img src="data:{{ image.mimetype }};base64,{{ image.data }}" alt="{{ image.filename }}" style="max-width: 20%; height: 40%;">
+                </label>
+                <input type="checkbox" id="{{ image.filename }}" name="selected_images" value="{{ image.filename }}">
+            {% endfor %}
+            </div>  
+        </div>
+        
+        
+    
+        <br>
+        <div class="custom-select">
+        <select name="audio" id="audioSelect">
+            <option value="0">Music Library</option>
+            <option value="Eagle_Rock_Wes_Hutchinson.mp3">Eagle_Rock</option>
+            <option value="Goat_Wayne_Jones.mp3">Goat_Wayne_Jones</option>
+            <option value="Lust_For_Love_White_Hex.mp3">Lust_For_Love</option>
+           
+        </select>
+        </div>
+        <br>
+        <div class="custom-select">
+            <select name="transition" id="transitionSelect">
+                <option value="0">Transitions</option>
+                <option value="fadein">Fade In</option>
+                <option value="fadeout">Fade Out</option>
+                <option value="crossfade">Cross Fade</option>
+            </select>
+        </div>
+        
+        <!--<div id="audioPlayer">
+            <audio controls style="width:100%;">
+                <source id="audioSource" src="" type="audio/mp3">
+            </audio>
+        </div>-->
+        
+        <br>
+        <input type="submit" value="Create Video">
+    </form>
+<!-- {% for filename in uploaded_filenames %} -->
+      <!-- {% set img_url = url_for('static', filename='uploads/' + filename) %} -->
+      <!--<p>{{ img_url }}</p>-->
+      <!-- <img  class="fileName" src="{{ img_url }}" alt="{{ filename }}"> -->
+  <!-- {% endfor %} -->
+
+   <br>
+
+   
+ 
+
+<!--<div class="grid-container">
+<div class="grid-item">
+    {% for filename in uploaded_filenames %}
+    {% set img_url = url_for('static', filename='uploads/' + filename) %}
+    <img src="{{ img_url }}" alt="{{ filename }}" class="uploaded-image">
+    {% endfor %}
+</div>-->
+
+    <!-- <button class="sidebar" onclick="uploadImages()">
+        <i class="fas fa-image"></i><p>Upload Images</p> -->
+        
+            
+    
+    
+
+      
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script >
+
+var x, i, l, ll, selElmnt, a, b, c;
+        /* Look for any elements with the class "custom-select" */
+        x = document.getElementsByClassName("custom-select");
+        l = x.length;
+        for (i = 0; i < l; i++) {
+            selElmnt = x[i].getElementsByTagName("select")[0];
+            ll = selElmnt.length;
+            /* For each element, create a new DIV that will act as the selected item */
+            a = document.createElement("DIV");
+            a.setAttribute("class", "select-selected");
+            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+            x[i].appendChild(a);
+            /* For each element, create a new DIV that will contain the option list */
+            b = document.createElement("DIV");
+            b.setAttribute("class", "select-items select-hide");
+            for (j = 1; j < ll; j++) {
+                /* For each option in the original select element, create a new DIV that will act as an option item */
+                c = document.createElement("DIV");
+                c.innerHTML = selElmnt.options[j].innerHTML;
+                c.addEventListener("click", function (e) {
+                    /* When an item is clicked, update the original select box, and the selected item */
+                    var y, i, k, s, h, sl, yl;
+                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                    sl = s.length;
+                    h = this.parentNode.previousSibling;
+                    for (i = 0; i < sl; i++) {
+                        if (s.options[i].innerHTML == this.innerHTML) {
+                            s.selectedIndex = i;
+                            h.innerHTML = this.innerHTML;
+                            y = this.parentNode.getElementsByClassName("same-as-selected");
+                            yl = y.length;
+                            for (k = 0; k < yl; k++) {
+                                y[k].removeAttribute("class");
+                            }
+                            this.setAttribute("class", "same-as-selected");
+                            break;
+                        }
+                    }
+                    h.click();
+                });
+                b.appendChild(c);
+            }
+            x[i].appendChild(b);
+            a.addEventListener("click", function (e) {
+                /* When the select box is clicked, close any other select boxes, and open/close the current select box */
+                e.stopPropagation();
+                closeAllSelect(this);
+                this.nextSibling.classList.toggle("select-hide");
+                this.classList.toggle("select-arrow-active");
+            });
+        }
+        function closeAllSelect(elmnt) {
+            /* A function that will close all select boxes in the document, except the current select box */
+            var x, y, i, xl, yl, arrNo = [];
+            x = document.getElementsByClassName("select-items");
+            y = document.getElementsByClassName("select-selected");
+            xl = x.length;
+            yl = y.length;
+            for (i = 0; i < yl; i++) {
+                if (elmnt == y[i]) {
+                    arrNo.push(i)
+                } else {
+                    y[i].classList.remove("select-arrow-active");
+                }
+            }
+            for (i = 0; i < xl; i++) {
+                if (arrNo.indexOf(i)) {
+                    x[i].classList.add("select-hide");
+                }
+            }
+        }
+        
+       
+        /* If the user clicks anywhere outside the select box, then close all select boxes */
+        document.addEventListener("click", closeAllSelect);
+
+        /* Update the audio source based on the selected transition */
+        document.getElementById('transitionSelect').addEventListener('change', function () {
+            var selectedTransition = this.value;
+            var audioSource = document.getElementById('audioSource');
+            var staticPath = "{{ url_for('static', filename='') }}"; // Update this with your static file path
+            audioSource.src = staticPath + selectedTransition + ".mp3";
+            audioPlayer.load();
+            audioPlayer.play();
+        });
+
+
+document.getElementById('audioSelect').addEventListener('change', function() {
+        var selectedAudio = this.value;
+        var audioPlayer = document.getElementById('audioPlayer');
+        var audioSource = document.getElementById('audioSource');
+        var staticPath = "{{ url_for('static', filename='') }}";
+        audioSource.src = staticPath + selectedAudio;
+        audioPlayer.load();
+        audioPlayer.play();
+    });
+
+function createVideo() {
+    window.location.href = "{{ url_for('create_video') }}";
+}
+
+
+function playAudio(audioSrc) {
+  var audioPlayer = document.querySelector("#audioPlayer audio");
+  audioPlayer.src = audioSrc;
+  audioPlayer.play();
+}
+
+function toggleMode() {
+    const body = document.body;
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('nav a');
+    const loginContainer = document.querySelector('.login-container');
+
+    body.classList.toggle('dark-mode');
+    header.classList.toggle('dark-mode');
+    navLinks.forEach(link => link.classList.toggle('dark-mode'));
+    loginContainer.classList.toggle('dark-mode');
+        }       
+
+
+function uploadMusic() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'audio/*';
+    input.onchange = handleMusicUpload;
+    input.click();
+}
+
+function handleMusicUpload(event) {
+    const file = event.target.files[0];
+
+    const audioPlayer = document.querySelector("#audioPlayer audio");
+
+    // Set the source to the audio file data
+    audioPlayer.src = URL.createObjectURL(file);
+
+    // Autoplay the new audio
+    audioPlayer.play();
+}
+//dropdown
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
+    function currentDiv(n) {
+  showDivs(slideIndex = n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("grid-items");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" grid-items", "");
+  }
+  x[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " grid-items";
+}
+
+function uploadImages() {
+    const fileInput = document.getElementById('fileInput');
+    const files = fileInput.files;
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('images', files[i]);
+    }
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Images uploaded successfully');
+            return response.json();
+        } else {
+            console.error('Images upload failed');
+            throw new Error('Upload failed');
+        }
+    })
+    .then(data => {
+        displayFilenames(data);
+    })
+    .catch(error => console.error('Error uploading images:', error));
+}
+
+function displayFilenames(filenames) {
+    const filenameContainer = document.getElementById('filenameContainer');
+    filenameContainer.innerHTML = ''; 
+
+    filenames.forEach(filename => {
+        const img = document.createElement('img');
+        img.src = `/uploads/${filename}`;
+        img.alt = filename;
+        img.className = 'fileName';
+        filenameContainer.appendChild(img);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('fileInput');
+        const filenameContainer = document.getElementById('filenameContainer');
+
+        // Prevent default behavior for drag-and-drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            filenameContainer.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop area when an item is dragged over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            filenameContainer.addEventListener(eventName, highlight, false);
+        });
+
+        // Unhighlight drop area when an item is dragged out
+        ['dragleave', 'drop'].forEach(eventName => {
+            filenameContainer.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        filenameContainer.addEventListener('drop', handleDrop, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            filenameContainer.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            filenameContainer.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            // Update the file input with the dropped files
+            fileInput.files = files;
+
+            // Display the filenames
+            displayFilenames(files);
+        }
+
+        function displayFilenames(files) {
+            // Clear previous filenames
+            filenameContainer.innerHTML = '';
+
+            // Display the filenames
+            for (let i = 0; i < files.length; i++) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(files[i]);
+                img.alt = files[i].name;
+                img.className = 'fileName';
+                filenameContainer.appendChild(img);
+            }
+        }
+    });
+
+  
+    function validateForm() {
+        var checkboxes = document.getElementsByName('selected_images');
+        var isChecked = false;
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+        if (!isChecked) {
+            alert('Please select at least one image.');
+            return false;
+        }
+
+        var audioSelect = document.getElementById('audioSelect');
+        if (audioSelect.value == "0") {
+            alert('Please select an audio file.');
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
+</body>
+</html>

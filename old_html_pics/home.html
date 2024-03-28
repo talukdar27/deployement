@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main-ChitraKatha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        header {
+            background-color: gray;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.5s;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        header img {
+            border-radius: 10%;
+            margin-right: 20px;
+            transition: transform 0.5s;
+        }
+
+        header p {
+            margin: 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #fff;
+             font-size:xx-large;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: gray;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            margin-left: 20px;
+            box-sizing: border-box;
+            font-size: large;
+            
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.5s;
+            margin-right: 20px;
+        }
+
+        .mode-switch {
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .sidebar {
+            background-color: #333;
+            padding: 20px;
+            display: flex;
+            width: 250px;
+            transition: width 0.5s;
+            margin:auto;
+            color: #fff;
+        }
+
+        .sidebar i {
+            font-size: 24px;
+            color: #fff;
+            margin: auto;
+        }
+
+        .sidebar p {
+            font-size: 15px;
+            color: #fff;
+            margin: auto;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .uploaded-music {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+
+        /* Media Query: Adjust sidebar width for screens wider than 600px */
+        @media (max-width: 700px) {
+            header img {
+                transform: scale(0.8); /* Adjust the scale factor as needed */
+            }
+
+            nav {
+                font-size: xx-small;
+                padding: 5px;
+            }
+            header h1 {
+                font-size: small;
+            }
+
+            .mode-switch {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 40px; /* Adjusted width for smaller screens */
+            }
+
+            .content {
+                margin-left: 0; /* Remove margin for smaller screens */
+            }
+        }
+        #videoPreview {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .display {
+        width:1500px;
+        height:670px;
+        margin-left: 220px;
+        margin-top: 10px;
+        background-color: #fff;
+    }
+
+    .play {
+        width:1100px;
+        margin-left:200px;
+        margin-top: 30px;
+
+    }
+
+    .edit {
+        margin-left: 3rem;
+        margin-top: 50px;
+        height:150px;
+        background-color: #fff;
+    }
+
+    .grid-item img {
+    max-width: 100%; /* Ensure images don't exceed their container's width */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove default inline behavior */
+    }
+    /* Add this style for the video controls 
+    .video-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .video-controls button {
+        margin: 0 5px;
+        cursor: pointer;
+    }*/
+
+    /* styling for dark theme slider */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+
+.dark-mode {
+    background-color: #383838;
+    color: black;
+}
+header.dark-mode {
+            background-color: #555;
+        }
+
+        header.dark-mode nav {
+            background-color: #555;
+        }
+
+        nav a.dark-mode {
+            background-color: #555;
+            color: #fff;
+        }
+
+        button.dark-mode {
+            background-color: #fff;
+            color: #333;
+        }
+</style>
+</head>
+
+
+<body>
+    <header>
+        <p>
+            <img src="logo.png" alt="Logo" width="50" height="50">
+            <h1><b>ChitrKatha</b></h1>
+        </p>
+        <nav>
+            <a href="about.html" target="_blank"><b>About Us</b></a>
+            <a href="login.html" target="_blank"><b>Login</b></a>
+            <a href="create_account.html" target="_blank"><b>Sign Up</b></a>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        </nav>
+    </header>
+
+    <button class="sidebar" style="margin-top: 17%" onclick="uploadImages()">
+        <i class="fas fa-image"></i><p>Upload Images</p>
+    </div>
+    <button class="sidebar"  onclick="uploadMusic()">
+        <i class="fas fa-music"></i>><p>Upload Music</p>
+    </div>
+    <a href="main.html" style="color:#fff; text-decoration:none; margin:auto">
+    <button class="sidebar"  onclick="uploadMusic()">
+        <i class="fas fa-play"></i><p>Create Video</p>
+    </div></a>
+
+
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('nav a');
+            const loginContainer = document.querySelector('.login-container');
+
+            body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            navLinks.forEach(link => link.classList.toggle('dark-mode'));
+            loginContainer.classList.toggle('dark-mode');
+        }
+
+function handleImageUpload(event) {
+    const container = document.getElementById('imageContainer');
+    const files = event.target.files;
+
+    const musicBar = container.querySelector('.uploaded-music');
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Uploaded Image';
+            img.className = 'uploaded-image';
+
+            // Insert the image before the music bar if it exists, otherwise, simply append it
+            if (musicBar) {
+                container.insertBefore(img, musicBar);
+            } else {
+                container.appendChild(img);
+            }
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function uploadMusic() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'audio/*';
+    input.onchange = handleMusicUpload;
+    input.click();
+}
+
+function handleMusicUpload(event) {
+    const container = document.getElementById('imageContainer');
+    const file = event.target.files[0];
+
+    const audio = document.createElement('audio');
+    audio.src = URL.createObjectURL(file);
+    audio.controls = true;
+    audio.className = 'uploaded-music';
+
+    // Find the last uploaded image in the container
+    const lastImage = container.querySelector('.uploaded-image:last-child');
+
+    // Insert the music element after the last image if it exists, otherwise simply append it
+    if (lastImage) {
+        container.insertBefore(audio, lastImage.nextSibling);
+    } else {
+        container.appendChild(audio);
+    }
+}
+
+function handleDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy'; // Set the drop effect to copy
+        }
+
+        // Function to handle drop event
+        function handleDrop(event) {
+            event.preventDefault();
+            
+            const container = document.getElementById('imageContainer');
+            const files = event.dataTransfer.files;
+
+            // Check if dropped files are images or music
+            const isImage = Array.from(files).every(file => file.type.startsWith('image/'));
+            const isMusic = Array.from(files).every(file => file.type.startsWith('audio/'));
+
+            if (isImage) {
+                handleImageUpload({ target: { files } });
+            } else if (isMusic) {
+                handleMusicUpload({ target: { files } });
+            }
+        }
+
+        // Set up drag-and-drop event listeners
+        document.body.addEventListener('dragover', handleDragOver);
+        document.body.addEventListener('drop', handleDrop);
+        function addTransitions() {
+            // Your add transitions function
+            if (typeof WebAudioRecorder !== 'undefined') {
+                startVideoRecording();
+            } else {
+                console.error('WebAudioRecorder library not loaded.');
+            }
+        }
+        let imageDuration = 5; // Default duration in seconds
+        let transitionDuration;
+
+        function addTransitions() {
+    // Ask for duration only when the "Add Transitions" icon is clicked
+    transitionDuration = prompt("Enter the duration for each image in seconds:", imageDuration);
+
+    if (transitionDuration !== null) {
+        imageDuration = parseFloat(transitionDuration) || imageDuration;
+
+        // After getting the duration, show an additional icon to create the video
+        const createVideoIcon = document.createElement('i');
+        createVideoIcon.className = 'fas fa-video';
+        createVideoIcon.onclick = createVideo;
+        document.querySelector('.sidebar').appendChild(createVideoIcon);
+    }
+}
+
+function createVideo() {
+    // Only create the video and show the preview when the "Create Video" icon is clicked
+    startVideoRecording();
+    showVideoPreview();
+}
+
+function showVideoPreview() {
+    const container = document.getElementById('imageContainer');
+    const videoPreview = document.getElementById('videoPreview');
+
+    // Hide the existing content
+    container.innerHTML = '';
+
+    // Show the video preview
+    videoPreview.removeAttribute('hidden');
+    videoPreview.controls = true;
+    videoPreview.play();
+}
+
+let previewVideo;
+        function startVideoRecording() {
+            const container = document.getElementById('imageContainer');
+            const images = container.querySelectorAll('.uploaded-image');
+
+            // Create a video element
+            const video = document.createElement('video');
+            video.width = 640;
+            video.height = 480;
+
+            // Create a canvas for drawing images
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.width;
+            canvas.height = video.height;
+
+            // Append video element to container
+            container.appendChild(video);
+
+            // Initialize MediaRecorder
+            const stream = canvas.captureStream();
+            const recorder = new MediaRecorder(stream);
+            const chunks = [];
+
+            recorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    chunks.push(event.data);
+                }
+            };
+
+            recorder.onstop = () => {
+                // Combine video chunks into a Blob
+                const blob = new Blob(chunks, { type: 'video/mp4' });
+
+                // Create a video URL
+                const videoURL = URL.createObjectURL(blob);
+
+                // Set video source
+                video.src = videoURL;
+                video.controls = true;
+
+                // Remove canvas and images
+                container.removeChild(canvas);
+                images.forEach(image => container.removeChild(image));
+            };
+
+            // Draw each image on the canvas
+            images.forEach((image, index) => {
+                context.drawImage(image, 0, 0, video.width, video.height);
+                recorder.stop(); // Stop the recorder to capture the frame
+                recorder.start(); // Start the recorder for the next frame
+            });
+
+            // Stop the recorder to finalize the video
+            recorder.stop();
+            previewVideo = document.getElementById('videoPreview');
+            previewVideo.src = videoURL;
+    previewVideo.type = 'video/mp4';
+        previewVideo.src = URL.createObjectURL(blob);
+        previewVideo.currentTime = 0; // Start from the beginning
+        previewVideo.removeAttribute('hidden'); // Show the video preview
+        previewVideo.play(); 
+        }
+        function playPreview() {
+        if (previewVideo) {
+            previewVideo.play();
+        }
+    }
+
+    function pausePreview() {
+        if (previewVideo) {
+            previewVideo.pause();
+        }
+    }
+
+    function rewindPreview() {
+        if (previewVideo) {
+            previewVideo.currentTime = 0;
+        }
+    }
+
+
+
+
+    function currentDiv(n) {
+  showDivs(slideIndex = n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("grid-items");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" grid-items", "");
+  }
+  x[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " grid-items";
+}
+
+
+
+var myIndex = 0;
+  var slideshowInterval;
+
+  function createVideo() {
+    startSlideshow();
+    // Code to create video goes here
+  }
+
+  function startSlideshow() {
+    var x = document.getElementsByClassName("mySlides");
+    for (var i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    myIndex = 0;
+    slideshowInterval = setInterval(nextSlide, 2000); // Change image every 2 seconds
+    setTimeout(pauseSlideshow, 14000); // Stop slideshow after 12 seconds
+  }
+
+  function nextSlide() {
+    var x = document.getElementsByClassName("mySlides");
+    myIndex++;
+    if (myIndex > x.length) {
+      myIndex = 1;
+    }    
+    for (var i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    x[myIndex - 1].style.display = "block";
+  }
+
+  function pauseSlideshow() {
+    clearInterval(slideshowInterval);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ChirtaKatha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        
+
+        header {
+            background-color: gray;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.5s;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        header img {
+            border-radius: 10%;
+            margin-right: 10px;
+        }
+
+        header p {
+            margin: 0px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #fff;
+             font-size:xx-large;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: gray;
+            /* Match the background color with the header */
+            padding: 10px;
+            position: relative;
+            z-index: 1;
+            /* Set z-index to ensure the nav is above the sidebar */
+            width: 100%;
+            box-sizing: border-box;
+            font-size: large;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.5s;
+            margin-right: 20px;
+        }
+
+        .mode-switch {
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .team-member {
+            text-align: center;
+            margin: 20px;
+            width: 100%;
+            /* By default, take full width */
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .team-member p {
+            color: #333;
+        }
+        .team-member.dark-mode p{
+            color: white;
+        }
+        .team-member.dark-mode{
+            background-color: black;
+        }
+
+        header.dark-mode {
+            background-color: #555;
+        }
+        header.dark-mode nav {
+    background-color: #555;
+}
+        nav a.dark-mode {
+            color: white;
+            
+        }
+
+        .login-container.dark-mode {
+            background-color: #555;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        button.dark-mode {
+            background-color: #fff;
+            color: #333;
+        }
+        body.dark-mode {
+    background-color: black;
+    color: #fff;
+}
+
+
+        main.dark-mode{
+            background-color: black;
+        }
+
+        
+        /* Media Query: Adjust layout for screens wider than 600px */
+        @media (min-width: 700px) {
+            .team-member {
+                width: 30%;
+                /* Each member takes 30% of the width when the screen is wider than 600px */
+            }
+            
+            nav {
+                font-size: medium;
+                padding: 5px;
+            }
+            header h1 {
+                font-size: large;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <p>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="50" height="50">
+        <h1><b>ChitraKatha</b></h1>
+        </p>
+        <nav>
+            <a href="{{ url_for('index') }}"><b>Home</b></a>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        </nav>
+    </header>
+    <center>
+    <div>
+        <p><b>Run Time Error, a fun team of three on their journey to develop a video making app. Below is more content
+            about us.</b></p>
+    </div>
+</center>
+
+    <main>
+        
+
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='WhatsApp Image 2023-12-21 at 6.11.32 PM-modified.png') }}" alt="Team Member 1">
+            <p>Ahana Talukdar</p>
+            <p>Hello, I am a first-year student at IIIT Hyderabad, pursuing Computational Human Sciences. Originally from
+                Kolkata, West Bengal, I am characterized by my hardworking nature, a penchant for fun, and an optimistic
+                outlook. I embrace a minimalistic lifestyle, finding joy in simplicity and meaningful experiences.</p>
+        </div>
+
+        <div class="team-member">
+            <img src= "{{ url_for('static', filename='navya.jpeg') }}" alt="Team Member 2">
+            <p>N N Apurva</p>
+            <p>Greetings, I'm a freshman at IIIT Hyderabad, diving into Computational Human Sciences. Hailing from Hyderabad, I'm captivated by dance, embodying patience and creativity. With a zest for life, I find joy in the dance of simplicity, weaving meaningful experiences into the fabric of my journey.</p>
+        </div>
+
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='apurva.jpeg') }}" alt="Team Member 3">
+            <p>Navya Srivastava</p>
+            <p>Salutations! I'm a student delving into Computational Linguistics, hailing from the vibrant city of Raipur. Fascinated by the intricacies of language, I unravel its mysteries with fervor. A connoisseur of words, I merge technology and linguistics, crafting a path marked by curiosity, diligence, and a passion for understanding communication's inner workings.</p>
+        </div>
+        
+    </main>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('nav a');
+            const teamMembers = document.querySelectorAll('.team-member');
+
+            body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            navLinks.forEach(link => link.classList.toggle('dark-mode'));
+            teamMembers.forEach(member => member.classList.toggle('dark-mode'));
+        }
+    </script>
+
+</body>
+
+</html>

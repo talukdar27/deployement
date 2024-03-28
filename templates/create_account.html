@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>ChirtaKatha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        header {
+            background-color: gray;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.5s;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        header img {
+            border-radius: 10%;
+            margin-right: 10px;
+            transition: transform 0.5s;
+        }
+
+        header p {
+            margin: 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #fff;
+            font-size: xx-large;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: gray;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            margin-left: 20px;
+            box-sizing: border-box;
+            font-size: large;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.5s;
+            margin-right: 20px;
+        }
+
+        .mode-switch {
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-text {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .Image {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            /* Center the image horizontally */
+            align-items: center;
+        }
+
+        .Image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .form-container label {
+            color: #333 !important;
+            /* Set the label text color to black */
+        }
+
+        body.dark-mode .form-container label {
+            color: black;
+            /* Set the label text color to white in dark mode */
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: white;
+        }
+
+        header.dark-mode {
+            background-color: #555;
+        }
+
+        header.dark-mode nav {
+            background-color: #555;
+        }
+
+        nav a.dark-mode {
+            color: #fff;
+        }
+
+        button.dark-mode {
+            background-color: #fff;
+            color: #333;
+        }
+
+        @media screen and (max-width: 700px) {
+            header img {
+                transform: scale(0.8);
+            }
+
+            .Image {
+                display: none;
+            }
+
+            nav {
+                font-size: xx-small;
+                padding: 5px;
+            }
+
+            header h1 {
+                font-size: small;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .form-container {
+                width: 60%;
+                margin: 0 auto;
+                margin-top: 0.2rem;
+                font-size: smaller;
+            }
+        }
+
+        /* Animation for Welcome text */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .welcome-text {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Animation for scaling text */
+        @keyframes scaleText {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .scaling-text {
+            animation: scaleText 2s ease-in-out;
+        }
+
+        .welcome-text {
+            font-size: 1.5em;
+        }
+
+        .form-container h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .alert {
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <p>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="50" height="50">
+        <h1><b>ChitrKatha</b></h1>
+        </p>
+        <nav>
+            <a href="{{ url_for('index') }}" target="_blank"><b>Home</b></a>
+            <a href="{{ url_for('about') }}" target="_blank"><b>About Us</b></a>
+            <a href="{{ url_for('login') }}" target="_blank"><b>Login</b></a>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        </nav>
+    </header>
+
+    <main>
+        <center>
+            <br>
+            <h2 class="welcome-text scaling-text"><b>Welcome To ChitrKatha!!</b></h2>
+        </center>
+        <div class="main-content">
+            <div class="form-container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="alert alert-danger">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                <h2 class="mb-4"><b>Create an Account</b></h2>
+                <form method="post" action="{{ url_for('create_account') }}">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username"
+                            placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password"
+                            placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+                            placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+            </div>
+            <div class="Image">
+                <img src="{{ url_for('static', filename='createacc.png') }}" alt="createacc" />
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('nav a');
+            const loginContainer = document.querySelector('.login-container');
+
+            body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            navLinks.forEach(link => link.classList.toggle('dark-mode'));
+            loginContainer.classList.toggle('dark-mode');
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

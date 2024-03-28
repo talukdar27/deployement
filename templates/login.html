@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChirtaKatha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            /* Set your desired background color */
+            color: #333;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            flex-wrap: wrap; /* Add flex-wrap property to allow items to wrap to the next line on smaller screens */
+        }
+        header {
+            background-color: gray;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.5s;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        header img {
+            border-radius: 10%;
+            margin-right: 10px;
+        }
+
+        header p {
+            margin: 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+
+        }
+
+        header h1 {
+            margin: 0;
+            color: #fff;
+            /* Set your desired text color */
+             font-size:xx-large;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: gray;
+            /* Match the background color with the header */
+            padding: 10px;
+            position: relative;
+            z-index: 1;
+            /* Set z-index to ensure the nav is above the sidebar */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav a {
+            color: #fff;
+            /* Set your desired text color */
+            text-decoration: none;
+            transition: color 0.5s;
+            margin-right: 20px;
+            font-size: large;
+            /* Adjust the margin as needed */
+        }
+
+        .mode-switch {
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .Image {
+            margin-top: 80px;
+            margin-left: 50px;
+            flex: 1;
+            
+
+        }
+
+        .login-container {
+            text-align: center;
+            margin: 20px; /* Adjust margin as needed */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            transition: background-color 0.5s, color 0.5s, box-shadow 0.5s;
+            height: 300px;
+            flex: 1; /* Add flex property to make it a flexible item */
+            margin-top: 150px;
+        }
+
+        h2 {
+            color: #333;
+            /* Set your desired text color */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #555;
+            /* Set your desired text color */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            /* Set your desired border color */
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #333;
+            /* Set your desired background color */
+            color: #fff;
+            /* Set your desired text color */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        button:hover {
+            background-color: #555;
+            /* Set your desired background color on hover */
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        header.dark-mode {
+            background-color: #555;
+        }
+        header.dark-mode nav {
+    background-color: #555;
+}
+
+        nav a.dark-mode {
+            color: #fff;
+        }
+
+        .login-container.dark-mode {
+            background-color: #555;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        button.dark-mode {
+            background-color: #fff;
+            color: #333;
+        }
+
+
+        @media screen and (max-width: 700px) {
+            main {
+                main {
+                    flex-direction: column;
+                    align-items: center;
+                    /* Center items horizontally */
+                    justify-content: center;
+                    /* Center items vertically */
+                }
+
+                /* Center items when stacking vertically */
+            }
+
+            .Image {
+
+                display: none;
+            }
+
+            .login-container {
+                margin-top: 20px;
+                margin-right: 20px;
+                width: 100%;
+                /* Occupy the full width */
+                max-width: 400px;
+                /* Set a max-width to prevent excessive stretching */
+            }
+            nav {
+                font-size: medium;
+                padding: 5px;
+            }
+            header h1 {
+                font-size: large;
+            }
+        }
+
+        nav {
+            padding: 1px;
+            /* Adjust the padding to shrink the nav bar */
+        }
+    </style>
+   
+</head>
+
+<body>
+
+    <header>
+        <p>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="50" height="50">
+        <h1 style="margin-right: 10px;"><b>ChitrKatha</b></h1>
+        </p>
+        <nav>
+            <a href="{{ url_for('index') }}"><b>Home</b></a>
+            <span class="mode-switch" onclick="toggleMode()">&#9728; &#9788;</span>
+        </nav>
+    </header>
+
+    <main>
+        <div class="Image">
+            
+            <img src="{{ url_for('static', filename='login2.png') }}" alt="LoginPageImage" width="750px" height="500px">
+        </div>
+
+        <div class="login-container">
+            <h2>Login</h2>
+            <form method="POST" onsubmit="event.preventDefault(); login();">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <button type="submit">Login</button>
+                <br>
+                <div id="loginResult"></div>
+            </form>
+        </div>
+        
+    </main>
+
+    <script>
+        
+        async function login() {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var loginResultDiv = document.getElementById('loginResult');
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',  // Set the Content-Type header
+                'Accept': 'application/json',  // Set the Accept header for JSON
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            loginResultDiv.textContent = 'Login Success';
+            if (data.redirect) {
+                window.location.href = data.redirect; // Redirect to the specified page
+            } else {
+                // If no specific redirect path is provided, go to the home page
+                window.location.href = '/home';
+            }
+        } else {
+            loginResultDiv.textContent = data.message || 'Invalid username or password';
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        loginResultDiv.textContent = 'Error during login. Please try again.';
+    }
+
+    loginResultDiv.style.display = 'block';
+}
+
+
+        function toggleMode() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('nav a');
+            const loginContainer = document.querySelector('.login-container');
+
+            body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            navLinks.forEach(link => link.classList.toggle('dark-mode'));
+            loginContainer.classList.toggle('dark-mode');
+        }
+    </script>
+
+
+</body>
+
+</html>
